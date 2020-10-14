@@ -7,7 +7,7 @@ const vscode = require('vscode');
 // Import the module and reference it with the alias azdata in your code below
 
 // Note: uncomment when you want to use Azure Data Studio APIs. Commenting now to avoid strict linting issues
-const azdata = require('azdata');
+//const azdata = require('azdata');
 
 function activate(context) {
     context.subscriptions.push(vscode.commands.registerCommand('copyassqlvalues.copy', () => {
@@ -17,6 +17,7 @@ function activate(context) {
 				if(!content.match(/\(('.*'),?\)/)){
 					vscode.window.showInformationMessage('making paste...');
 					var tokens = content.split('\r\n')
+					tokens = tokens.filter((token)=>{return token!=null && token!=''})
 					vscode.env.clipboard.writeText('('+tokens.map(value=>'\''+value+'\'').join()+')')
 					.then(()=>{
 						vscode.commands.executeCommand('editor.action.clipboardPasteAction')
